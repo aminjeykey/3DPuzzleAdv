@@ -6,6 +6,7 @@ public class Key : Triggerable
     public override void Action()
     {
         GameManager.Instance.SetPlayerState(GameManager.PlayerState.Qualified);
+        HUDManager.Instance.SetInteractionText("Key Collected");
     }
 
     // listens for player collision

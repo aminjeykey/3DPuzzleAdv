@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        if (_Instance == null)
+        {
+            _Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 
     // enum for tracking which state the game is in
@@ -38,6 +41,21 @@ public class GameManager : MonoBehaviour
         Finished
     }
 
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void LoadSceneByIndex(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
+
+    public void RestartGame()
+    {
+        LoadSceneByIndex(sceneIndex);
+    }
+
     // loads next level
     public void LoadNextLevel()
     {
@@ -46,7 +64,7 @@ public class GameManager : MonoBehaviour
             sceneIndex = -1;
         }
         sceneIndex++;
-        SceneManager.LoadScene(sceneIndex);
+        LoadSceneByIndex(sceneIndex);
         playerState = PlayerState.InProgress;
     }
 

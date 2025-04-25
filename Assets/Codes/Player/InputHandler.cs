@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class InputHandler
 {
-    public InputStatus inputStatus;
-
+    public InputStatus inputStatus = InputStatus.Unlocked;
     private float movementSpeed = 20.0f;
     private float maxSpeed = 10.0f;
     private float jumpForce = 550.0f;
@@ -34,31 +33,35 @@ public class InputHandler
         movementSpeed = speed;
     }
 
-
+    //  calculates player motion every frame
     public void CalculateMotion(bool isGrounded)
     {
-        Debug.Log($"Player speed : {playerRigidbody.velocity.magnitude}");
-        if (isGrounded)
+        if (inputStatus == InputStatus.Unlocked)
         {
-            Vector2 joystickDir = new Vector2(inGameJoystick.Direction.x, inGameJoystick.Direction.y);
-            if (joystickDir.magnitude > 0 && playerRigidbody.velocity.magnitude < maxSpeed)
+            if (isGrounded)
             {
-                playerRigidbody.AddForce(new Vector3(joystickDir.x, 0, joystickDir.y) * movementSpeed);
-                playerRigidbody.drag = 0.05f;
-                playerRigidbody.angularDrag = 0.05f;
+                Vector2 joystickDir = new Vector2(inGameJoystick.Direction.x, inGameJoystick.Direction.y);
+                if (joystickDir.magnitude > 0 && playerRigidbody.velocity.magnitude < maxSpeed)
+                {
+                    playerRigidbody.AddForce(new Vector3(joystickDir.x, 0, joystickDir.y) * movementSpeed);
+                    playerRigidbody.drag = 0.05f;
+                    playerRigidbody.angularDrag = 0.05f;
+                }
+                else
+                {
+                    playerRigidbody.drag = 5.0f;
+                    playerRigidbody.angularDrag = 5.0f;
+                }
             }
             else
             {
-                playerRigidbody.drag = 5.0f;
-                playerRigidbody.angularDrag = 5.0f;
+                playerRigidbody.drag = 0.0f;
+                playerRigidbody.angularDrag = 0.0f;
             }
         }
-        else 
-        {
-            playerRigidbody.drag = 0.0f;
-            playerRigidbody.angularDrag = 0.0f;
-        }
     }
+
+    // shoots player at sky
     public void Jump(bool isGrounded)
     {
         if (!isGrounded)
@@ -67,4 +70,17 @@ public class InputHandler
         }
         playerRigidbody.AddForce(Vector3.up * jumpForce);
     }
+
+    // menu button click event
+    public void MenuButton()
+    {
+        HUDManager.Instance.OpenMenu();
+    }
+
+    // restart button click event
+    public void RestartButton()
+    {
+        HUDManager.Instance.RestartButton();
+    }
+
 }

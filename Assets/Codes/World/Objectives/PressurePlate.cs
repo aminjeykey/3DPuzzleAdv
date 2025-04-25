@@ -6,6 +6,7 @@ public class PressurePlate : Triggerable
     public override void Action()
     {
         GameManager.Instance.SetPlayerState(GameManager.PlayerState.Qualified);
+        HUDManager.Instance.SetInteractionText("Door Activated");
         GetComponent<Animator>().Play("Anim_Plate");
     }
 

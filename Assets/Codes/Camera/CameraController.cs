@@ -3,21 +3,21 @@ using UnityEngine;
 public class CameraController
 {
     [SerializeField]
-    private Camera topDownCamera;
+    private Camera thirdPersonCamera;
     [SerializeField]
     private Vector3 cameraOffset = Vector3.zero;
     private Transform cameraTransform;
 
-    public CameraController(Camera topDownCamera)
+    public CameraController(Camera thirdPersonCamera)
     {
-        this.topDownCamera = topDownCamera;
-        cameraTransform = topDownCamera.transform;
+        this.thirdPersonCamera = thirdPersonCamera;
+        cameraTransform = thirdPersonCamera.transform;
     }
 
     // Changes camera fov real-time
     public void SetCameraFOV(float FOV)
     {
-        topDownCamera.fieldOfView = FOV;
+        thirdPersonCamera.fieldOfView = FOV;
     }
 
     // Method for updating camera's movement and rotation
